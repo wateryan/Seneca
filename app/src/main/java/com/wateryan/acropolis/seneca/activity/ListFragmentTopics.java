@@ -14,7 +14,7 @@ import android.widget.Toast;
  */
 public class ListFragmentTopics extends ListFragment {
 
-    String[] items = new String[]{"1", "2", "3"};
+    private final String[] items = new String[]{"1", "2", "3"};
 
     @Override
     public void onListItemClick(ListView listView, View view, int position, long id) {
@@ -23,7 +23,7 @@ public class ListFragmentTopics extends ListFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(inflater.getContext(), android.R.layout.simple_list_item_1, items);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(inflater.getContext(), android.R.layout.simple_list_item_1, items);
         setListAdapter(adapter);
         return super.onCreateView(inflater, container, savedInstanceState);
     }

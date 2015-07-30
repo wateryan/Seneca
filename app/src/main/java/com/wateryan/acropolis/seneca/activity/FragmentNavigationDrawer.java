@@ -42,7 +42,7 @@ public class FragmentNavigationDrawer extends Fragment {
         this.drawerListener = listener;
     }
 
-    public static List<NavDrawerItem> getData() {
+    private static List<NavDrawerItem> getData() {
         List<NavDrawerItem> data = new ArrayList<>();
         for (String title : drawer_labels) {
             NavDrawerItem item = new NavDrawerItem();
