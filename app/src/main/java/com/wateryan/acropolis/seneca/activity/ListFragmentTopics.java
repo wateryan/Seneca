@@ -12,7 +12,7 @@ import android.widget.Toast;
 /**
  * Created on 7/29/2015.
  */
-public class TopicListFragment extends ListFragment {
+public class ListFragmentTopics extends ListFragment {
 
     String[] items = new String[]{"1", "2", "3"};
 
