@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigatio
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             Toast.makeText(getApplicationContext(), "Settings is selected.", Toast.LENGTH_SHORT).show();
+            // TODO Create SettingsActivity and add the action to the menu
             return true;
         }
 
