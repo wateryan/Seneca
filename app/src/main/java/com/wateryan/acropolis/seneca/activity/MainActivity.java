@@ -1,5 +1,6 @@
 package com.wateryan.acropolis.seneca.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -56,7 +57,8 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigatio
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             Toast.makeText(getApplicationContext(), "Settings is selected.", Toast.LENGTH_SHORT).show();
-            // TODO Create SettingsActivity and add the action to the menu
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
             return true;
         }
 
@@ -64,7 +66,6 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigatio
             Toast.makeText(getApplicationContext(), "Search is selected.", Toast.LENGTH_SHORT).show();
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
