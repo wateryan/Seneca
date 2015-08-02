@@ -90,6 +90,10 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigatio
                 fragment = new ListFragmentTopics();
                 title = getString(R.string.title_topics);
                 break;
+            case 3:
+                fragment = new ListFragmentAccounts();
+                title = getString(R.string.title_accounts);
+                break;
         }
 
         if (fragment != null) {

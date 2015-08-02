@@ -8,15 +8,18 @@
     <string name="nav_item_home">Home</string>
     <string name="nav_item_messages">Messages</string>
     <string name="nav_item_topics">Topics</string>
+    <string name="nav_item_accounts">Accounts</string>
     <string-array name="nav_drawer_labels">
         <item>@string/nav_item_home</item>
         <item>@string/nav_item_messages</item>
         <item>@string/nav_item_topics</item>
+        <item>@string/nav_item_accounts</item>
     </string-array>
 
     <string name="title_home">Home</string>
     <string name="title_messages">Messages</string>
     <string name="title_topics">Topics</string>
+    <string name="title_accounts">Accounts</string>
     <string name="title_activity_main">MainActivity</string>
 
     <string name="hello_world">Hello world!</string>
