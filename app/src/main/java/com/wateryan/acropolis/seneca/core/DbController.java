@@ -25,7 +25,6 @@ public class DbController {
     // TODO Swap all queries with query builder
     private DbController(Context context) {
         this.helper = new DbHelper(context);
-        this.db = this.helper.getWritableDatabase();
     }
 
     public static DbController getInstance(Context context) {
@@ -36,21 +35,33 @@ public class DbController {
     }
 
     public List<Account> getUsersAccounts() {
+        this.db = this.helper.getReadableDatabase();
         List<Account> accounts = new ArrayList<>();
         try (Cursor cursor = db.rawQuery("SELECT * FROM account", null)) {
             if (cursor.moveToFirst()) {
                 do {
-                    accounts.add(new Account(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getInt(4)));
+                    accounts.add(new Account(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getInt(5)));
                 } while (cursor.moveToNext());
             }
         } catch (SQLiteException e) {
             Log.d("SQL Error", e.getLocalizedMessage());
         }
+        this.db.close();
         return accounts;
     }
 
+    public void updateUsersAccount(Account account) {
+        this.db = this.helper.getWritableDatabase();
+        db.execSQL("UPDATE account " +
+                "SET username = " + account.getUsername() + ", password = " + account.getPassword() + ", serviceName = " + account.getServiceName() + ", host = " + account.getHost() + ", port = " + account.getPort() + " " +
+                "WHERE _id = " + account.getId());
+        this.db.close();
+    }
+
     public void addUsersAccount(Account account) {
+        this.db = this.helper.getWritableDatabase();
         db.execSQL("INSERT INTO account " + account.getUsername() + "," + account.getPassword() + "," + account.getServiceName() + "," + account.getHost() + "," + account.getPort());
+        this.db.close();
     }
 
     public void closeDb() {
