@@ -44,7 +44,7 @@ public class ListFragmentAccounts extends ListFragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        ArrayAdapter<Account> adapter = new ArrayAdapter<Account>(inflater.getContext(), android.R.layout.simple_list_item_1, this.accountList);
+        ArrayAdapter<Account> adapter = new ArrayAdapter<>(inflater.getContext(), android.R.layout.simple_list_item_1, this.accountList);
         setListAdapter(adapter);
         return super.onCreateView(inflater, container, savedInstanceState);
     }
