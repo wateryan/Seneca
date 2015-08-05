@@ -1,9 +1,11 @@
 package com.wateryan.acropolis.seneca.model;
 
+import java.io.Serializable;
+
 /**
  * Created on 8/2/2015.
  */
-public class Account {
+public class Account implements Serializable {
 
     private String username;
     private String password;
