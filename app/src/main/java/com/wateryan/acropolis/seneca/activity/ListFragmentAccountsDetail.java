@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.wateryan.acropolis.seneca.R;
 import com.wateryan.acropolis.seneca.core.DbController;
+import com.wateryan.acropolis.seneca.core.SessionManager;
 import com.wateryan.acropolis.seneca.model.Account;
 
 /**
@@ -33,7 +34,8 @@ public class ListFragmentAccountsDetail extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_accounts_item, container, false);
-        ((TextView) view.findViewById(R.id.account_number)).setText("Account Number: " + this.account.getId());
+        ((TextView) view.findViewById(R.id.account_number)).setText(
+                "Account Number: " + this.account.getId());
         ((EditText) view.findViewById(R.id.username)).setText(this.account.getUsername());
         ((EditText) view.findViewById(R.id.password)).setText(this.account.getPassword());
         ((EditText) view.findViewById(R.id.service_name)).setText(this.account.getServiceName());
@@ -55,18 +57,24 @@ public class ListFragmentAccountsDetail extends Fragment {
                     // TODO input should be validated and this shouldn't be here.
                     new AlertDialog.Builder(getActivity()).setMessage(e.getMessage()).create();
                 }
-                Toast.makeText(getActivity(), "Saved account " + (account != null ? account.getUsername() : null), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(),
+                        "Saved account " + (account != null ? account.getUsername() : null),
+                        Toast.LENGTH_SHORT).show();
+                SessionManager.getInstance().initializeSession(account);
                 getFragmentManager().popBackStack();
             }
 
             private Account getUserAccount(View v) {
                 // TODO Input validation
-                int id = parseId(((TextView) v.findViewById(R.id.account_number)).getText().toString());
+                int id = parseId(
+                        ((TextView) v.findViewById(R.id.account_number)).getText().toString());
                 String username = ((EditText) v.findViewById(R.id.username)).getText().toString();
                 String password = ((EditText) v.findViewById(R.id.password)).getText().toString();
-                String service = ((EditText) v.findViewById(R.id.service_name)).getText().toString();
+                String service = ((EditText) v.findViewById(
+                        R.id.service_name)).getText().toString();
                 String host = ((EditText) v.findViewById(R.id.host)).getText().toString();
-                int port = Integer.parseInt(((EditText) v.findViewById(R.id.port)).getText().toString());
+                int port = Integer.parseInt(
+                        ((EditText) v.findViewById(R.id.port)).getText().toString());
                 return new Account(id, username, password, service, host, port);
             }
 

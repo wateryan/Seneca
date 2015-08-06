@@ -50,7 +50,8 @@ public class DbController {
     }
 
     public void addUsersAccount(Account account) {
-        db.execSQL("INSERT INTO account (username,password,serviceName,host,port)  VALUES ('" + account.getUsername() + "','" + account.getPassword() + "','" + account.getServiceName() + "','" + account.getHost() + "'," + account.getPort() + ")");
+        db.execSQL(
+                "INSERT INTO account (username,password,serviceName,host,port) VALUES ('" + account.getUsername() + "','" + account.getPassword() + "','" + account.getServiceName() + "','" + account.getHost() + "'," + account.getPort() + ")");
     }
 
     public boolean accountExists(Account account) {

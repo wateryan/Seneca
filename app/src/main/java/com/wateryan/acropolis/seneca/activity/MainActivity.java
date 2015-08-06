@@ -15,9 +15,14 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.wateryan.acropolis.seneca.R;
+import com.wateryan.acropolis.seneca.core.DbController;
+import com.wateryan.acropolis.seneca.core.SessionManager;
 
 
 public class MainActivity extends AppCompatActivity implements FragmentNavigationDrawer.FragmentDrawerListener {
+
+    private SessionManager sessionManager;
+    private DbController dbController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,11 +38,17 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigatio
             bar.setDisplayHomeAsUpEnabled(true);
         }
 
-        FragmentNavigationDrawer fragmentNavigationDrawer = (FragmentNavigationDrawer) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
-        fragmentNavigationDrawer.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), mToolbar);
+        FragmentNavigationDrawer fragmentNavigationDrawer = (FragmentNavigationDrawer) getSupportFragmentManager().findFragmentById(
+                R.id.fragment_navigation_drawer);
+        fragmentNavigationDrawer.setUp(R.id.fragment_navigation_drawer,
+                (DrawerLayout) findViewById(R.id.drawer_layout), mToolbar);
         fragmentNavigationDrawer.setDrawerListener(this);
 
         displayFragment(0);
+
+        this.dbController = DbController.getInstance(this);
+        this.sessionManager = SessionManager.getInstance();
+        this.sessionManager.initializeSessions(this.dbController.getUsersAccounts());
     }
 
     @Override
@@ -56,14 +67,16 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigatio
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Toast.makeText(getApplicationContext(), "Settings is selected.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Settings is selected.",
+                    Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
             return true;
         }
 
         if (id == R.id.action_search) {
-            Toast.makeText(getApplicationContext(), "Search is selected.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Search is selected.",
+                    Toast.LENGTH_SHORT).show();
             return true;
         }
         return super.onOptionsItemSelected(item);
