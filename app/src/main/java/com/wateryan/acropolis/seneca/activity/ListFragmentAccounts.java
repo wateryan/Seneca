@@ -36,7 +36,7 @@ public class ListFragmentAccounts extends ListFragment {
         DbController controller = DbController.getInstance(this.getActivity());
         this.accountList = controller.getUsersAccounts();
         if (this.accountList.isEmpty()) {
-            this.accountList.add(new Account("DefaultUser", "password", "SErvice", "host", 5222));
+            this.accountList.add(new Account(1, "DefaultUser", "password", "Service", "host", 5222));
         }
     }
 
@@ -45,6 +45,7 @@ public class ListFragmentAccounts extends ListFragment {
         Fragment fragment = new ListFragmentAccountsDetail();
         Bundle args = new Bundle();
         args.putSerializable("account", this.accountList.get(position));
+        fragment.setArguments(args);
 
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

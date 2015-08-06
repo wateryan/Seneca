@@ -22,7 +22,7 @@ public class DbController {
     private DbHelper helper;
     private SQLiteDatabase db;
 
-    // TODO Swap all queries with query builder
+    // TODO Swap all queries with query builder. SQL injection ftw
     private DbController(Context context) {
         this.helper = new DbHelper(context);
         this.db = this.helper.getWritableDatabase();
@@ -40,7 +40,7 @@ public class DbController {
         try (Cursor cursor = db.rawQuery("SELECT * FROM account", null)) {
             if (cursor.moveToFirst()) {
                 do {
-                    accounts.add(new Account(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getInt(4)));
+                    accounts.add(new Account(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getInt(5)));
                 } while (cursor.moveToNext());
             }
         } catch (SQLiteException e) {
@@ -50,7 +50,18 @@ public class DbController {
     }
 
     public void addUsersAccount(Account account) {
-        db.execSQL("INSERT INTO account " + account.getUsername() + "," + account.getPassword() + "," + account.getServiceName() + "," + account.getHost() + "," + account.getPort());
+        db.execSQL("INSERT INTO account (username,password,serviceName,host,port)  VALUES ('" + account.getUsername() + "','" + account.getPassword() + "','" + account.getServiceName() + "','" + account.getHost() + "'," + account.getPort() + ")");
+    }
+
+    public boolean accountExists(Account account) {
+        Cursor cursor = db.rawQuery("SELECT * FROM account WHERE _id  = " + account.getId(), null);
+        int count = cursor.getCount();
+        cursor.close();
+        return count > 0;
+    }
+
+    public void updateUsersAccount(Account account) {
+        db.execSQL("UPDATE account SET username = '" + account.getUsername() + "', password = '" + account.getPassword() + "', serviceName = '" + account.getServiceName() + "', host = '" + account.getHost() + "', port = " + account.getPort() + " WHERE _id = " + account.getId());
     }
 
     public void closeDb() {
