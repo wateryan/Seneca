@@ -3,6 +3,7 @@ package com.wateryan.acropolis.seneca.core;
 import com.wateryan.acropolis.seneca.model.Account;
 
 import org.jivesoftware.smack.AbstractXMPPConnection;
+import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.SmackException;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Presence;
@@ -24,29 +25,39 @@ public class Session {
     private Account account;
     private XMPPTCPConnectionConfiguration configuration;
     private AbstractXMPPConnection connection;
-    private boolean isInitialized;
 
     public Session(Account account) {
         this.account = account;
-        this.isInitialized = false;
     }
 
     public void initialize() {
         this.configuration = XMPPTCPConnectionConfiguration.builder().setUsernameAndPassword(
                 this.account.getUsername(), this.account.getPassword()).setServiceName(
                 this.account.getServiceName()).setHost(this.account.getHost()).setPort(
-                this.account.getPort()).build();
+                this.account.getPort()).setSecurityMode(
+                ConnectionConfiguration.SecurityMode.disabled).setDebuggerEnabled(true).build();
         this.connection = new XMPPTCPConnection(this.configuration);
+        this.connection.setPacketReplyTimeout(10000);
         try {
             this.connection.connect();
-            this.isInitialized = true;
+            this.connection.login();
         } catch (SmackException | IOException | XMPPException e) {
             logger.log(Level.WARNING, "Unable to establish session. ", e);
         }
     }
 
-    public boolean isInitialized() {
-        return this.isInitialized;
+    public void close() {
+        if (this.connection.isConnected()) {
+            try {
+                this.connection.disconnect(new Presence(Presence.Type.unavailable));
+            } catch (SmackException.NotConnectedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public boolean isConnected() {
+        return this.connection.isConnected();
     }
 
     public void setPresence(Presence.Type presenceType) {

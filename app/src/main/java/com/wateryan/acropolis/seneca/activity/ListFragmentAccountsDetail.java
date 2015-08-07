@@ -1,6 +1,5 @@
 package com.wateryan.acropolis.seneca.activity;
 
-import android.app.AlertDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -51,17 +50,22 @@ public class ListFragmentAccountsDetail extends Fragment {
                     if (DbController.getInstance(getActivity()).accountExists(account)) {
                         DbController.getInstance(getActivity()).updateUsersAccount(account);
                     } else {
+                        // TODO delete old user account?
                         DbController.getInstance(getActivity()).addUsersAccount(account);
                     }
                 } catch (NumberFormatException e) {
                     // TODO input should be validated and this shouldn't be here.
-                    new AlertDialog.Builder(getActivity()).setMessage(e.getMessage()).create();
+                    Toast.makeText(getActivity(), "Exception thrown.", Toast.LENGTH_SHORT);
+                } finally {
+                    Toast.makeText(getActivity(),
+                            "Saved account " + (account != null ? account.getUsername() : null),
+                            Toast.LENGTH_SHORT).show();
+                    if (!SessionManager.getInstance().hasInitializedSession(account)) {
+                        SessionManager.getInstance().initializeSession(account);
+                    }
+                    getFragmentManager().popBackStack();
                 }
-                Toast.makeText(getActivity(),
-                        "Saved account " + (account != null ? account.getUsername() : null),
-                        Toast.LENGTH_SHORT).show();
-                SessionManager.getInstance().initializeSession(account);
-                getFragmentManager().popBackStack();
+
             }
 
             private Account getUserAccount(View v) {

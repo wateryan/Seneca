@@ -46,4 +46,34 @@ public class Account implements Serializable {
     public int getPort() {
         return this.port;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Account account = (Account) o;
+
+        if (id != account.id) return false;
+        if (port != account.port) return false;
+        if (username != null ? !username.equals(account.username) : account.username != null)
+            return false;
+        if (password != null ? !password.equals(account.password) : account.password != null)
+            return false;
+        if (serviceName != null ? !serviceName.equals(
+                account.serviceName) : account.serviceName != null) return false;
+        return !(host != null ? !host.equals(account.host) : account.host != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + (username != null ? username.hashCode() : 0);
+        result = 31 * result + (password != null ? password.hashCode() : 0);
+        result = 31 * result + (serviceName != null ? serviceName.hashCode() : 0);
+        result = 31 * result + (host != null ? host.hashCode() : 0);
+        result = 31 * result + port;
+        return result;
+    }
 }

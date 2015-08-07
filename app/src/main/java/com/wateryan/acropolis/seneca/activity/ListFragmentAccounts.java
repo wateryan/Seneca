@@ -32,12 +32,6 @@ public class ListFragmentAccounts extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        DbController controller = DbController.getInstance(this.getActivity());
-        this.accountList = controller.getUsersAccounts();
-        if (this.accountList.isEmpty()) {
-            this.accountList.add(new Account(1, "DefaultUser", "password", "Service", "host", 5222));
-        }
     }
 
     @Override
@@ -56,7 +50,15 @@ public class ListFragmentAccounts extends ListFragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        ArrayAdapter<Account> adapter = new ArrayAdapter<>(inflater.getContext(), android.R.layout.simple_list_item_1, this.accountList);
+        DbController controller = DbController.getInstance(this.getActivity());
+        this.accountList = controller.getUsersAccounts();
+        // TODO remove with addition of Add Account button
+        if (this.accountList.isEmpty()) {
+            this.accountList.add(
+                    new Account(1, "DefaultUser", "password", "Service", "host", 5222));
+        }
+        ArrayAdapter<Account> adapter = new ArrayAdapter<>(inflater.getContext(),
+                android.R.layout.simple_list_item_1, this.accountList);
         setListAdapter(adapter);
         return inflater.inflate(R.layout.fragment_accounts, container, false);
         //  return super.onCreateView(inflater, container, savedInstanceState);
