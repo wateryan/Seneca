@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,10 +42,9 @@ public class ListFragmentAccounts extends ListFragment {
         fragment.setArguments(args);
 
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.container_body, fragment);
-        fragmentTransaction.addToBackStack(fragment.getTag());
-        fragmentTransaction.commit();
+        ListFragmentAccountsDetail detail = new ListFragmentAccountsDetail();
+        detail.setArguments(args);
+        detail.show(fragmentManager, "fragment_accounts_detail");
     }
 
     @Override

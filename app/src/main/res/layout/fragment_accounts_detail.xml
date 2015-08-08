@@ -5,8 +5,10 @@
     android:orientation="vertical">
 
     <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="false"
+        android:layout_centerInParent="true">
 
         <RelativeLayout
             android:layout_width="fill_parent"
@@ -27,7 +29,6 @@
                 android:id="@+id/username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/account_number"
                 android:layout_centerHorizontal="true"
                 android:ems="10"
                 android:hint="username@host"
@@ -87,14 +88,6 @@
                 android:inputType="number"
                 android:singleLine="true" />
 
-            <TextView
-                android:id="@+id/account_number"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="70dp"
-                android:text="Account Number" />
         </RelativeLayout>
     </FrameLayout>
 

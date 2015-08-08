@@ -1,12 +1,11 @@
 package com.wateryan.acropolis.seneca.activity;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wateryan.acropolis.seneca.R;
@@ -17,7 +16,7 @@ import com.wateryan.acropolis.seneca.model.Account;
 /**
  * Created on 8/4/2015.
  */
-public class ListFragmentAccountsDetail extends Fragment {
+public class ListFragmentAccountsDetail extends DialogFragment {
 
     private static final String ARG_ACCOUNT = "account";
     private Account account;
@@ -33,8 +32,7 @@ public class ListFragmentAccountsDetail extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_accounts_detail, container, false);
-        ((TextView) view.findViewById(R.id.account_number)).setText(
-                "Account Number: " + this.account.getId());
+        getDialog().setTitle("Account Number: " + this.account.getId());
         ((EditText) view.findViewById(R.id.username)).setText(this.account.getUsername());
         ((EditText) view.findViewById(R.id.password)).setText(this.account.getPassword());
         ((EditText) view.findViewById(R.id.service_name)).setText(this.account.getServiceName());
@@ -46,7 +44,7 @@ public class ListFragmentAccountsDetail extends Fragment {
             public void onClick(View v) {
                 Account account = null;
                 try {
-                    account = getUserAccount(v.getRootView());
+                    account = getUserAccount((View) v.getParent());
                     if (DbController.getInstance(getActivity()).accountExists(account)) {
                         DbController.getInstance(getActivity()).updateUsersAccount(account);
                     } else {
@@ -63,16 +61,16 @@ public class ListFragmentAccountsDetail extends Fragment {
                     if (!SessionManager.getInstance().hasInitializedSession(account)) {
                         SessionManager.getInstance().initializeSession(account);
                     }
-                    getFragmentManager().popBackStack();
+                    getDialog().dismiss();
                 }
 
             }
 
             private Account getUserAccount(View v) {
                 // TODO Input validation
-                int id = parseId(
-                        ((TextView) v.findViewById(R.id.account_number)).getText().toString());
-                String username = ((EditText) v.findViewById(R.id.username)).getText().toString();
+                int id = ((Account) getArguments().get(ARG_ACCOUNT)).getId();
+                String
+                        username = ((EditText) v.findViewById(R.id.username)).getText().toString();
                 String password = ((EditText) v.findViewById(R.id.password)).getText().toString();
                 String service = ((EditText) v.findViewById(
                         R.id.service_name)).getText().toString();
@@ -89,7 +87,7 @@ public class ListFragmentAccountsDetail extends Fragment {
         view.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getFragmentManager().popBackStack();
+                getDialog().cancel();
             }
         });
         return view;
