@@ -3,6 +3,7 @@ package com.wateryan.acropolis.seneca.core;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.chat.ChatManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,6 +18,7 @@ public class MessageController {
 
     private MessageController() {
         this.sessionManager = SessionManager.getInstance();
+        this.chatManagers = new ArrayList<>();
         initializeChatManagers(this.sessionManager.getAllConnections());
     }
 
