@@ -32,7 +32,7 @@ public class ListFragmentAccountsDetail extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_accounts_item, container, false);
+        View view = inflater.inflate(R.layout.fragment_accounts_detail, container, false);
         ((TextView) view.findViewById(R.id.account_number)).setText(
                 "Account Number: " + this.account.getId());
         ((EditText) view.findViewById(R.id.username)).setText(this.account.getUsername());
