@@ -5,13 +5,16 @@ import com.wateryan.acropolis.seneca.model.Account;
 import org.jivesoftware.smack.AbstractXMPPConnection;
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.SmackException;
+import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Presence;
 import org.jivesoftware.smack.packet.Stanza;
+import org.jivesoftware.smack.roster.RosterEntry;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,6 +28,7 @@ public class Session {
     private Account account;
     private XMPPTCPConnectionConfiguration configuration;
     private AbstractXMPPConnection connection;
+    private RosterController controller;
 
     public Session(Account account) {
         this.account = account;
@@ -44,6 +48,7 @@ public class Session {
         } catch (SmackException | IOException | XMPPException e) {
             logger.log(Level.WARNING, "Unable to establish session. ", e);
         }
+        this.controller = new RosterController(this.connection);
     }
 
     public void close() {
@@ -56,8 +61,16 @@ public class Session {
         }
     }
 
+    public XMPPConnection getConnection() {
+        return this.connection;
+    }
+
     public boolean isConnected() {
         return this.connection.isConnected();
+    }
+
+    public List<RosterEntry> getRosterEntries() {
+        return this.controller.getRosterEntries();
     }
 
     public void setPresence(Presence.Type presenceType) {

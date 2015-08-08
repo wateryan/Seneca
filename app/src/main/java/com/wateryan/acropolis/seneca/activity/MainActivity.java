@@ -103,14 +103,18 @@ public class MainActivity extends AppCompatActivity implements FragmentNavigatio
                 title = getString(R.string.title_home);
                 break;
             case 1:
-                fragment = new ListFragmentMessages();
-                title = getString(R.string.title_messages);
-                break;
-            case 2:
                 fragment = new ListFragmentTopics();
                 title = getString(R.string.title_topics);
                 break;
+            case 2:
+                fragment = new ListFragmentMessages();
+                title = getString(R.string.title_messages);
+                break;
             case 3:
+                fragment = new ListFragmentContacts();
+                title = getString(R.string.title_contacts);
+                break;
+            case 4:
                 fragment = new ListFragmentAccounts();
                 title = getString(R.string.title_accounts);
                 break;

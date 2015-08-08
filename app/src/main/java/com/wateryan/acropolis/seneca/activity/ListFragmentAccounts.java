@@ -61,7 +61,6 @@ public class ListFragmentAccounts extends ListFragment {
                 android.R.layout.simple_list_item_1, this.accountList);
         setListAdapter(adapter);
         return inflater.inflate(R.layout.fragment_accounts, container, false);
-        //  return super.onCreateView(inflater, container, savedInstanceState);
     }
 
 }

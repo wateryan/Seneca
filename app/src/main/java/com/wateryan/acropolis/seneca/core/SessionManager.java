@@ -3,6 +3,10 @@ package com.wateryan.acropolis.seneca.core;
 import android.os.AsyncTask;
 
 import com.wateryan.acropolis.seneca.model.Account;
+import com.wateryan.acropolis.seneca.model.Contact;
+
+import org.jivesoftware.smack.XMPPConnection;
+import org.jivesoftware.smack.roster.RosterEntry;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,7 +16,7 @@ import java.util.Map;
 /**
  * Created on 8/5/2015.
  * <p/>
- * SessionManager acts as the intermediary between Accounts and their associated sessions on a server
+ * DAL for network IO
  */
 public class SessionManager {
 
@@ -49,6 +53,44 @@ public class SessionManager {
         return new AsyncSessionInitializer().execute(session);
     }
 
+    public List<XMPPConnection> getAllConnections() {
+        List<XMPPConnection> connections = new ArrayList<>();
+        for (Map.Entry<Account, Session> accountSessionEntry : this.sessionsMap.entrySet()) {
+            connections.add(accountSessionEntry.getValue().getConnection());
+        }
+        return connections;
+    }
+
+    public List<Account> getAllAccounts() {
+        List<Account> accounts = new ArrayList<>();
+        for (Account account : this.sessionsMap.keySet()) {
+            accounts.add(account);
+        }
+        return accounts;
+    }
+
+    public List<RosterEntry> getAllRosterEntries() {
+        List<RosterEntry> entries = new ArrayList<>();
+        for (Session session : this.sessionsMap.values()) {
+            entries.addAll(session.getRosterEntries());
+        }
+        return entries;
+    }
+
+    /**
+     * Contact is a serializable wrapper for RosterEntry
+     * allowing it to be passed between fragments easily
+     *
+     * @return
+     */
+    public List<Contact> getAllRosterEntriesAsContacts() {
+        List<Contact> contacts = new ArrayList<>();
+        for (RosterEntry entry : getAllRosterEntries()) {
+            contacts.add(new Contact(entry));
+        }
+        return contacts;
+    }
+
     public boolean hasInitializedSession(Account account) {
         return this.sessionsMap.containsKey(account) && this.sessionsMap.get(account).isConnected();
     }
@@ -62,7 +104,6 @@ public class SessionManager {
     public void closeSession(Account account) {
         this.sessionsMap.get(account).close();
     }
-
 
     public class AsyncSessionInitializer extends AsyncTask<Session, String, String> {
 
