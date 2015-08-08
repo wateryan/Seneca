@@ -50,6 +50,7 @@ public class ListFragmentAccounts extends ListFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         DbController controller = DbController.getInstance(this.getActivity());
+        // TODO execute with asynctask. Not a big deal though as query is simple
         this.accountList = controller.getUsersAccounts();
         // TODO remove with addition of Add Account button
         if (this.accountList.isEmpty()) {

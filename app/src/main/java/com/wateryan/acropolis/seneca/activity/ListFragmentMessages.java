@@ -8,6 +8,7 @@ import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.wateryan.acropolis.seneca.R;
@@ -52,10 +53,10 @@ public class ListFragmentMessages extends ListFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//
-//        ArrayAdapter<String> adapter = new ArrayAdapter<>(inflater.getContext(),
-//                android.R.layout.simple_list_item_1, items);
-        //       setListAdapter(adapter);
+        List<Chat> chatList = this.controller.getInboundMessageStore();
+        ArrayAdapter<Chat> adapter = new ArrayAdapter<>(inflater.getContext(),
+                android.R.layout.simple_list_item_1, chatList);
+        setListAdapter(adapter);
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
