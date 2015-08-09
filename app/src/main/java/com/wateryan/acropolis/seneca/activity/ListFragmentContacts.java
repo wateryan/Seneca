@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.wateryan.acropolis.seneca.R;
+import com.wateryan.acropolis.seneca.adapter.ListFragmentContactsAdapter;
 import com.wateryan.acropolis.seneca.core.SessionManager;
 import com.wateryan.acropolis.seneca.model.Contact;
 
@@ -39,8 +40,8 @@ public class ListFragmentContacts extends ListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.contactList = this.sessionManager.getAllRosterEntriesAsContacts();
-        ArrayAdapter<Contact> adapter = new ArrayAdapter<Contact>(inflater.getContext(),
-                android.R.layout.simple_list_item_1, this.contactList);
+        ArrayAdapter<Contact> adapter = new ListFragmentContactsAdapter(inflater.getContext(),
+                R.layout.fragment_contacts_row, this.contactList);
         setListAdapter(adapter);
         return inflater.inflate(R.layout.fragment_contacts, container, false);
     }

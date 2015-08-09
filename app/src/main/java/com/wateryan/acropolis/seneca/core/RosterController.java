@@ -21,5 +21,4 @@ public class RosterController {
     public List<RosterEntry> getRosterEntries() {
         return new ArrayList<>(this.roster.getEntries());
     }
-
 }

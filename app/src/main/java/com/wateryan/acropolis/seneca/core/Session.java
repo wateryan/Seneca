@@ -9,6 +9,7 @@ import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Presence;
 import org.jivesoftware.smack.packet.Stanza;
+import org.jivesoftware.smack.roster.Roster;
 import org.jivesoftware.smack.roster.RosterEntry;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration;
@@ -28,7 +29,7 @@ public class Session {
     private Account account;
     private XMPPTCPConnectionConfiguration configuration;
     private AbstractXMPPConnection connection;
-    private RosterController controller;
+    private RosterController rosterController;
 
     public Session(Account account) {
         this.account = account;
@@ -48,7 +49,7 @@ public class Session {
         } catch (SmackException | IOException | XMPPException e) {
             logger.log(Level.WARNING, "Unable to establish session. ", e);
         }
-        this.controller = new RosterController(this.connection);
+        this.rosterController = new RosterController(this.connection);
     }
 
     public void close() {
@@ -70,7 +71,7 @@ public class Session {
     }
 
     public List<RosterEntry> getRosterEntries() {
-        return this.controller.getRosterEntries();
+        return this.rosterController.getRosterEntries();
     }
 
     public void setPresence(Presence.Type presenceType) {
@@ -83,6 +84,10 @@ public class Session {
             presence.setStatus(status);
         }
         sentStanza(presence);
+    }
+
+    public Presence getPresenceOfUser(String user) {
+        return Roster.getInstanceFor(this.connection).getPresence(user);
     }
 
     private void sentStanza(Stanza stanza) {

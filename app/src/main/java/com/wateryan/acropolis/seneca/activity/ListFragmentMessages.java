@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.wateryan.acropolis.seneca.R;
+import com.wateryan.acropolis.seneca.adapter.ListFragmentMessagesAdapter;
 import com.wateryan.acropolis.seneca.core.MessageController;
 import com.wateryan.acropolis.seneca.model.SerializableChatWrapper;
 
@@ -54,7 +55,7 @@ public class ListFragmentMessages extends ListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         List<Chat> chatList = this.controller.getInboundMessageStore();
-        ArrayAdapter<Chat> adapter = new ArrayAdapter<>(inflater.getContext(),
+        ArrayAdapter<Chat> adapter = new ListFragmentMessagesAdapter(inflater.getContext(),
                 android.R.layout.simple_list_item_1, chatList);
         setListAdapter(adapter);
         return super.onCreateView(inflater, container, savedInstanceState);

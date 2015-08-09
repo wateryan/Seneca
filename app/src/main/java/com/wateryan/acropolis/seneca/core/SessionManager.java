@@ -6,6 +6,7 @@ import com.wateryan.acropolis.seneca.model.Account;
 import com.wateryan.acropolis.seneca.model.Contact;
 
 import org.jivesoftware.smack.XMPPConnection;
+import org.jivesoftware.smack.packet.Presence;
 import org.jivesoftware.smack.roster.RosterEntry;
 
 import java.util.ArrayList;
@@ -89,6 +90,17 @@ public class SessionManager {
             contacts.add(new Contact(entry));
         }
         return contacts;
+    }
+
+    // Seach all connections for users status
+    public Presence getPresenseOfUser(String user) {
+        Presence presence = null;
+        for (Session session : this.sessionsMap.values()) {
+            if ((presence = session.getPresenceOfUser(user)) != null) {
+                return presence;
+            }
+        }
+        return presence;
     }
 
     public boolean hasInitializedSession(Account account) {
