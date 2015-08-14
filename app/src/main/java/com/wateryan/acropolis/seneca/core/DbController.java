@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
 
 import com.wateryan.acropolis.seneca.model.Account;
@@ -40,7 +41,9 @@ public class DbController {
         try (Cursor cursor = db.rawQuery("SELECT * FROM account", null)) {
             if (cursor.moveToFirst()) {
                 do {
-                    accounts.add(new Account(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getInt(5)));
+                    accounts.add(
+                            new Account(cursor.getInt(0), cursor.getString(1), cursor.getString(2),
+                                    cursor.getString(3), cursor.getString(4), cursor.getInt(5)));
                 } while (cursor.moveToNext());
             }
         } catch (SQLiteException e) {
@@ -50,8 +53,14 @@ public class DbController {
     }
 
     public void addUsersAccount(Account account) {
-        db.execSQL(
-                "INSERT INTO account (username,password,serviceName,host,port) VALUES ('" + account.getUsername() + "','" + account.getPassword() + "','" + account.getServiceName() + "','" + account.getHost() + "'," + account.getPort() + ")");
+        SQLiteStatement statement = db.compileStatement(
+                "INSERT INTO account (username,password,serviceName,host,port) VALUES (?,?,?,?,?)");
+        statement.bindString(1, account.getUsername());
+        statement.bindString(2, account.getPassword());
+        statement.bindString(3, account.getServiceName());
+        statement.bindString(4, account.getHost());
+        statement.bindLong(5, account.getPort());
+        statement.executeInsert();
     }
 
     public boolean accountExists(Account account) {
@@ -62,7 +71,8 @@ public class DbController {
     }
 
     public void updateUsersAccount(Account account) {
-        db.execSQL("UPDATE account SET username = '" + account.getUsername() + "', password = '" + account.getPassword() + "', serviceName = '" + account.getServiceName() + "', host = '" + account.getHost() + "', port = " + account.getPort() + " WHERE _id = " + account.getId());
+        db.execSQL(
+                "UPDATE account SET username = '" + account.getUsername() + "', password = '" + account.getPassword() + "', serviceName = '" + account.getServiceName() + "', host = '" + account.getHost() + "', port = " + account.getPort() + " WHERE _id = " + account.getId());
     }
 
     public void closeDb() {
@@ -83,9 +93,11 @@ public class DbController {
         @Override
         public void onCreate(SQLiteDatabase db) {
             // messages table
-            db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_MESSAGES + " (_id INTEGER PRIMARY KEY AUTOINCREMENT, username text, type integer, body text)");
+            db.execSQL(
+                    "CREATE TABLE IF NOT EXISTS " + TABLE_MESSAGES + " (_id INTEGER PRIMARY KEY AUTOINCREMENT, username text, type integer, body text)");
             // uac table
-            db.execSQL("CREATE TABLE IF NOT EXISTS account (_id INTEGER PRIMARY KEY AUTOINCREMENT, username text, password text, serviceName text, host text, port integer)");
+            db.execSQL(
+                    "CREATE TABLE IF NOT EXISTS account (_id INTEGER PRIMARY KEY AUTOINCREMENT, username text, password text, serviceName text, host text, port integer)");
         }
 
         @Override
