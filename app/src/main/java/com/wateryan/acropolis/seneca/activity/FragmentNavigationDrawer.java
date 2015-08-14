@@ -27,19 +27,14 @@ import java.util.List;
 public class FragmentNavigationDrawer extends Fragment {
 
     private static String TAG = FragmentNavigationDrawer.class.getSimpleName();
-
+    private static String[] drawer_labels = null;
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
     private View containerView;
-    private static String[] drawer_labels = null;
     private FragmentDrawerListener drawerListener;
 
     public FragmentNavigationDrawer() {
 
-    }
-
-    public void setDrawerListener(FragmentDrawerListener listener) {
-        this.drawerListener = listener;
     }
 
     private static List<NavDrawerItem> getData() {
@@ -50,6 +45,10 @@ public class FragmentNavigationDrawer extends Fragment {
             data.add(item);
         }
         return data;
+    }
+
+    public void setDrawerListener(FragmentDrawerListener listener) {
+        this.drawerListener = listener;
     }
 
     @Override
@@ -66,25 +65,27 @@ public class FragmentNavigationDrawer extends Fragment {
         NavigationDrawerAdapter adapter = new NavigationDrawerAdapter(getActivity(), getData());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), recyclerView, new ClickListener() {
-            @Override
-            public void onClick(View view, int position) {
-                drawerListener.onDrawerItemSelected(view, position);
-                mDrawerLayout.closeDrawer(containerView);
-            }
+        recyclerView.addOnItemTouchListener(
+                new RecyclerTouchListener(getActivity(), recyclerView, new ClickListener() {
+                    @Override
+                    public void onClick(View view, int position) {
+                        drawerListener.onDrawerItemSelected(view, position);
+                        mDrawerLayout.closeDrawer(containerView);
+                    }
 
-            @Override
-            public void onLongClick(View view, int position) {
+                    @Override
+                    public void onLongClick(View view, int position) {
 
-            }
-        }));
+                    }
+                }));
         return layout;
     }
 
     public void setUp(int fragmentId, DrawerLayout drawerLayout, final Toolbar toolbar) {
         containerView = getActivity().findViewById(fragmentId);
         mDrawerLayout = drawerLayout;
-        mDrawerToggle = new ActionBarDrawerToggle(getActivity(), drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close) {
+        mDrawerToggle = new ActionBarDrawerToggle(getActivity(), drawerLayout, toolbar,
+                R.string.drawer_open, R.string.drawer_close) {
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
@@ -119,26 +120,33 @@ public class FragmentNavigationDrawer extends Fragment {
         void onLongClick(View view, int position);
     }
 
+    public interface FragmentDrawerListener {
+        void onDrawerItemSelected(View view, int position);
+    }
+
     static class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
         private GestureDetector gestureDetector;
         private ClickListener clickLister;
 
         public RecyclerTouchListener(Context context, final RecyclerView recyclerView, final ClickListener clickLister) {
             this.clickLister = clickLister;
-            gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
-                @Override
-                public boolean onSingleTapUp(MotionEvent event) {
-                    return true;
-                }
+            gestureDetector = new GestureDetector(context,
+                    new GestureDetector.SimpleOnGestureListener() {
+                        @Override
+                        public boolean onSingleTapUp(MotionEvent event) {
+                            return true;
+                        }
 
-                public void onLongPress(MotionEvent event) {
-                    View child = recyclerView.findChildViewUnder(event.getX(), event.getY());
-                    if (child != null && clickLister != null) {
-                        clickLister.onClick(child, recyclerView.getChildAdapterPosition(child));
-                    }
-                }
+                        public void onLongPress(MotionEvent event) {
+                            View child = recyclerView.findChildViewUnder(event.getX(),
+                                    event.getY());
+                            if (child != null && clickLister != null) {
+                                clickLister.onClick(child,
+                                        recyclerView.getChildAdapterPosition(child));
+                            }
+                        }
 
-            });
+                    });
         }
 
         @Override
@@ -152,12 +160,11 @@ public class FragmentNavigationDrawer extends Fragment {
 
         @Override
         public void onTouchEvent(RecyclerView recyclerView, MotionEvent event) {
-
         }
-    }
 
-    public interface FragmentDrawerListener {
-        void onDrawerItemSelected(View view, int position);
+        @Override
+        public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+        }
     }
 
 }
