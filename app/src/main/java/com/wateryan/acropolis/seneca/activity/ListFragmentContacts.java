@@ -10,7 +10,7 @@ import android.widget.ListView;
 
 import com.wateryan.acropolis.seneca.R;
 import com.wateryan.acropolis.seneca.adapter.ListFragmentContactsAdapter;
-import com.wateryan.acropolis.seneca.core.SessionManager;
+import com.wateryan.acropolis.seneca.core.network.SessionManager;
 import com.wateryan.acropolis.seneca.model.Contact;
 
 import java.util.List;

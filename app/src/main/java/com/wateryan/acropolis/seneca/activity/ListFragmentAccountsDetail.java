@@ -9,8 +9,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.wateryan.acropolis.seneca.R;
-import com.wateryan.acropolis.seneca.core.DbController;
-import com.wateryan.acropolis.seneca.core.SessionManager;
+import com.wateryan.acropolis.seneca.core.database.DbController;
+import com.wateryan.acropolis.seneca.core.network.SessionManager;
 import com.wateryan.acropolis.seneca.model.Account;
 
 /**
@@ -24,7 +24,7 @@ public class ListFragmentAccountsDetail extends DialogFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments().containsKey(ARG_ACCOUNT)) {
+        if (getArguments() != null && getArguments().containsKey(ARG_ACCOUNT)) {
             account = (Account) getArguments().get(ARG_ACCOUNT);
         }
     }
@@ -32,12 +32,16 @@ public class ListFragmentAccountsDetail extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_accounts_detail, container, false);
-        getDialog().setTitle("Account Number: " + this.account.getId());
-        ((EditText) view.findViewById(R.id.username)).setText(this.account.getUsername());
-        ((EditText) view.findViewById(R.id.password)).setText(this.account.getPassword());
-        ((EditText) view.findViewById(R.id.service_name)).setText(this.account.getServiceName());
-        ((EditText) view.findViewById(R.id.host)).setText(this.account.getHost());
-        ((EditText) view.findViewById(R.id.port)).setText(Integer.toString(this.account.getPort()));
+        if (this.account != null) {
+            getDialog().setTitle("Account Number: " + this.account.getId());
+            ((EditText) view.findViewById(R.id.username)).setText(this.account.getUsername());
+            ((EditText) view.findViewById(R.id.password)).setText(this.account.getPassword());
+            ((EditText) view.findViewById(R.id.service_name)).setText(
+                    this.account.getServiceName());
+            ((EditText) view.findViewById(R.id.host)).setText(this.account.getHost());
+            ((EditText) view.findViewById(R.id.port)).setText(
+                    Integer.toString(this.account.getPort()));
+        }
 
         view.findViewById(R.id.save).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,10 +82,6 @@ public class ListFragmentAccountsDetail extends DialogFragment {
                 int port = Integer.parseInt(
                         ((EditText) v.findViewById(R.id.port)).getText().toString());
                 return new Account(id, username, password, service, host, port);
-            }
-
-            private int parseId(String id) {
-                return Integer.parseInt(id.split(" ")[id.split(" ").length - 1]);
             }
         });
         view.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {

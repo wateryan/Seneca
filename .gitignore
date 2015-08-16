@@ -5,3 +5,6 @@
 .DS_Store
 /build
 /captures
+.idea/runConfigurations.xml
+.idea/inspectionProfiles/profiles_settings.xml
+.idea/inspectionProfiles/Project_Default.xml

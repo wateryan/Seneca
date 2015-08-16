@@ -10,7 +10,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.wateryan.acropolis.seneca.R;
-import com.wateryan.acropolis.seneca.core.SessionManager;
+import com.wateryan.acropolis.seneca.core.network.SessionManager;
 import com.wateryan.acropolis.seneca.model.Contact;
 
 import org.jivesoftware.smack.packet.Presence;

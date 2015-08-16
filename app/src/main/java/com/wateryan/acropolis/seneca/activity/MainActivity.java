@@ -15,8 +15,8 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.wateryan.acropolis.seneca.R;
-import com.wateryan.acropolis.seneca.core.DbController;
-import com.wateryan.acropolis.seneca.core.SessionManager;
+import com.wateryan.acropolis.seneca.core.database.DbController;
+import com.wateryan.acropolis.seneca.core.network.SessionManager;
 
 
 public class MainActivity extends AppCompatActivity implements FragmentNavigationDrawer.FragmentDrawerListener {

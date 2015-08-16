@@ -13,7 +13,7 @@ import android.widget.ListView;
 
 import com.wateryan.acropolis.seneca.R;
 import com.wateryan.acropolis.seneca.adapter.ListFragmentMessagesAdapter;
-import com.wateryan.acropolis.seneca.core.MessageController;
+import com.wateryan.acropolis.seneca.core.network.MessageController;
 import com.wateryan.acropolis.seneca.model.SerializableChatWrapper;
 
 import org.jivesoftware.smack.chat.Chat;

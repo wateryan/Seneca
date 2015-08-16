@@ -1,4 +1,4 @@
-package com.wateryan.acropolis.seneca.core;
+package com.wateryan.acropolis.seneca.core.database;
 
 import android.content.Context;
 import android.database.Cursor;

@@ -13,7 +13,7 @@ import android.widget.ListView;
 
 import com.wateryan.acropolis.seneca.R;
 import com.wateryan.acropolis.seneca.adapter.ListFragmentAccountsAdapter;
-import com.wateryan.acropolis.seneca.core.DbController;
+import com.wateryan.acropolis.seneca.core.database.DbController;
 import com.wateryan.acropolis.seneca.model.Account;
 
 import java.util.List;
@@ -60,7 +60,17 @@ public class ListFragmentAccounts extends ListFragment {
         ArrayAdapter<Account> adapter = new ListFragmentAccountsAdapter(inflater.getContext(),
                 R.layout.fragment_accounts_row, this.accountList);
         setListAdapter(adapter);
-        return inflater.inflate(R.layout.fragment_accounts, container, false);
+        View view = inflater.inflate(R.layout.fragment_accounts, container, false);
+        view.findViewById(R.id.add_button).setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                        ListFragmentAccountsDetail detail = new ListFragmentAccountsDetail();
+                        detail.show(fragmentManager, "fragment_accounts_detail");
+                    }
+                });
+        return view;
     }
 
 }

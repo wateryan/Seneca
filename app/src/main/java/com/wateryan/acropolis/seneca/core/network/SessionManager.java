@@ -1,4 +1,4 @@
-package com.wateryan.acropolis.seneca.core;
+package com.wateryan.acropolis.seneca.core.network;
 
 import android.os.AsyncTask;
 

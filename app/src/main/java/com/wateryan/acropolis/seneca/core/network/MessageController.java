@@ -1,4 +1,6 @@
-package com.wateryan.acropolis.seneca.core;
+package com.wateryan.acropolis.seneca.core.network;
+
+import com.wateryan.acropolis.seneca.core.database.DbController;
 
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.chat.Chat;
