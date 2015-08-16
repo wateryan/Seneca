@@ -2,14 +2,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="fill_parent"
                 android:layout_height="72dp"
-                android:orientation="vertical"
-    >
+                android:orientation="vertical">
 
     <TextView
         android:id="@+id/contact"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingLeft="72dp"
+        android:paddingStart="72dp"
         android:paddingTop="20dp"
         android:text="@string/app_name"
         android:textSize="@dimen/font_display_subhead"/>
@@ -29,7 +28,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/contact"
-        android:paddingLeft="72dp"
+        android:paddingStart="72dp"
         android:text="Status example"
         android:textSize="@dimen/font_display_body1"/>
 

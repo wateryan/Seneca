@@ -43,13 +43,13 @@ public class Session {
                 ConnectionConfiguration.SecurityMode.disabled).setDebuggerEnabled(true).build();
         this.connection = new XMPPTCPConnection(this.configuration);
         this.connection.setPacketReplyTimeout(10000);
+        this.rosterController = new RosterController(this.connection);
         try {
             this.connection.connect();
             this.connection.login();
         } catch (SmackException | IOException | XMPPException e) {
             logger.log(Level.WARNING, "Unable to establish session. ", e);
         }
-        this.rosterController = new RosterController(this.connection);
     }
 
     public void close() {

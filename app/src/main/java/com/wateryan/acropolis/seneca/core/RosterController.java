@@ -18,6 +18,14 @@ public class RosterController {
         this.roster = Roster.getInstanceFor(connection);
     }
 
+    private void persistRosterEntries() {
+        // TODO
+    }
+
+//    private List<RosterEntry> getPersistentRoster() {
+//    // TODO
+//    }
+
     public List<RosterEntry> getRosterEntries() {
         return new ArrayList<>(this.roster.getEntries());
     }
