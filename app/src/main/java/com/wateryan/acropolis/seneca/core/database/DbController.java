@@ -63,6 +63,13 @@ public class DbController {
         statement.executeInsert();
     }
 
+    public int getNextAccountId() {
+        Cursor cursor = db.rawQuery("SELECT max(_id) FROM account", null);
+        int id = cursor.getInt(1);
+        cursor.close();
+        return id + 1;
+    }
+
     public boolean accountExists(Account account) {
         Cursor cursor = db.rawQuery("SELECT * FROM account WHERE _id  = " + account.getId(), null);
         int count = cursor.getCount();

@@ -14,6 +14,15 @@ public class Account implements Serializable {
     private String host;
     private int port;
 
+    /**
+     * Should be used whenever the account has already been assigned an ID by the database
+     *
+     * @param username    Account username
+     * @param password    Account password
+     * @param serviceName Account's servicename
+     * @param host        Account's host
+     * @param port        port on the host
+     */
     public Account(int id, String username, String password, String serviceName, String host, int port) {
         this.id = id;
         this.username = username;
