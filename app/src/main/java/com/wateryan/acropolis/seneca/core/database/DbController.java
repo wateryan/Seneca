@@ -65,7 +65,8 @@ public class DbController {
 
     public int getNextAccountId() {
         Cursor cursor = db.rawQuery("SELECT max(_id) FROM account", null);
-        int id = cursor.getInt(1);
+        cursor.moveToFirst();
+        int id = cursor.getInt(0);
         cursor.close();
         return id + 1;
     }

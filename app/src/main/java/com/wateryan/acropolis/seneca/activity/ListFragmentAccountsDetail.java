@@ -2,6 +2,7 @@ package com.wateryan.acropolis.seneca.activity;
 
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -114,6 +115,7 @@ public class ListFragmentAccountsDetail extends DialogFragment {
                 } catch (Exception e) {
                     Toast.makeText(getActivity(), "Unable to save changes.",
                             Toast.LENGTH_SHORT).show();
+                    Log.e("Unable to save changes", e.getLocalizedMessage());
                     return;
                 }
                 if (DbController.getInstance(getActivity()).accountExists(account)) {
